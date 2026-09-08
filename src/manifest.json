@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "Forum Helper",
+  "version": "0.1.0",
+  "description": "在 V2EX、Linux.do 与 Hacker News 列表页右侧预览帖子内容",
+  "permissions": ["storage"],
+  "options_page": "options.html",
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.v2ex.com/*",
+        "*://linux.do/*",
+        "*://news.ycombinator.com/*"
+      ],
+      "js": [
+        "content/core/config.js",
+        "content/core/dom.js",
+        "content/core/viewer.js",
+        "content/sites/v2ex.js",
+        "content/sites/linuxdo.js",
+        "content/sites/hackernews.js",
+        "content/index.js"
+      ],
+      "css": ["content/styles.css"],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ]
+}
