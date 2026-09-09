@@ -31,7 +31,7 @@
   // ── iframe 内：被父页面预览的帖子页 ─────────────────────────────
   // document_start 注入预览样式：早于首帧渲染，消除"侧栏/顶栏先闪现再消失"。
   const initPreviewFrame = () => {
-    injectStyle(document, adapter.previewCss, 'fh-preview-frame-style');
+    injectStyle(document, adapter.previewCss, 'fsr-preview-frame-style');
 
     onReady(() => {
       adapter.onPreviewReady?.(document);
@@ -95,7 +95,7 @@
         return;
       }
       settingsPromise = null;
-      const root = document.getElementById('fh-preview-root');
+      const root = document.getElementById('fsr-preview-root');
       if (root) {
         applyPanelColors(root, { ...DEFAULT_SETTINGS, ...(changes[STORAGE_KEY].newValue ?? {}) });
       }

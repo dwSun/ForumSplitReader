@@ -6,6 +6,14 @@
   const { DEFAULT_SETTINGS, STORAGE_KEY } = globalThis.ForumSplitReaderConfig;
   const COLOR_KEYS = ['headerBg', 'titleColor', 'borderColor'];
 
+  const t = (key) => chrome.i18n.getMessage(key) || key;
+
+  // UI 文案按浏览器语言填充（_locales/en + zh_CN）。
+  document.title = t('optionsTitle');
+  for (const el of document.querySelectorAll('[data-i18n]')) {
+    el.textContent = t(el.dataset.i18n);
+  }
+
   const inputs = Object.fromEntries(COLOR_KEYS.map((key) => [key, document.getElementById(key)]));
   const status = document.getElementById('status');
   let statusTimer = null;
@@ -25,7 +33,7 @@
     saveTimer = setTimeout(() => {
       chrome.storage.local
         .set({ [STORAGE_KEY]: { ...current } })
-        .then(() => flash('已保存'));
+        .then(() => flash(t('optSaved')));
     }, 150);
   };
 
@@ -52,7 +60,7 @@
     }
     current = { ...DEFAULT_SETTINGS };
     clearTimeout(saveTimer);
-    chrome.storage.local.set({ [STORAGE_KEY]: { ...current } }).then(() => flash('已恢复默认'));
+    chrome.storage.local.set({ [STORAGE_KEY]: { ...current } }).then(() => flash(t('optResetDone')));
   });
 
   load();

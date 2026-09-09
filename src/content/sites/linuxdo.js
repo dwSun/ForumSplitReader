@@ -94,7 +94,7 @@
       if (!doc?.body) {
         return;
       }
-      doc.body.classList.add('fh-linuxdo-preview');
+      doc.body.classList.add('fsr-linuxdo-preview');
     },
   };
 })();

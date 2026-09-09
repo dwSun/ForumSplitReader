@@ -1,78 +1,137 @@
 # ForumSplitReader
 
-像邮件客户端一样浏览论坛：**左侧列表，右侧预览**，不再来回跳转。
+Browse forums like a mail client: **thread list on the left, preview on the right** —
+no more back-and-forth navigation.
 
-支持 V2EX、Linux.do、Hacker News。
+[中文 README](README_CN.md)
 
-## 功能
+## Why
 
-- **侧栏预览**：在帖子列表页点击讨论链接，右侧就地打开预览；点击另一条就地切换；点击同一条关闭。
-- **列表常驻**：预览时列表始终保留在左侧，滚动位置不丢。
-- **面板内导航**：预览里点击同站链接（下一页、评论、用户）继续在面板内打开。
-- **Hacker News 分流**：comments 侧栏预览；标题链接（第三方站点）新标签页打开，列表不动。
-- **自定义外观**：标题栏背景色、标题文字颜色、边框颜色均可在设置页调整，实时生效。
+Reading forums like V2EX or Linux.do usually means a constant loop of
+"list → open thread → back to list". It fragments attention, reloads pages,
+and loses your scroll position. Thunderbird-style mail clients suggest a better
+pattern: **keep the list, preview inline** — click a row to read it, click another
+to swap.
 
-## 安装
+We surveyed existing Chrome extensions; none fits exactly:
 
-**Chrome Web Store**：上架后补充链接。
+| Category | Examples | What's missing |
+| --- | --- | --- |
+| Hover preview | MaxFocus, Hover, etc. | A popup layer, not a real split view; links escape the popup |
+| In-tab split | TabBoost, Split View, etc. | Manual commands; doesn't take over list link clicks |
+| Forum-specific | V2EX Plus, etc. | Single-site only; often iframe-shell based |
+| Open-anything sidebar | Page Sidebar, etc. | No list-page detection, no link rewriting |
 
-**开发者模式（本地）**：
+ForumSplitReader fills the gap: **auto-activation + multi-forum + native tab
+rendering** (not an iframe shell). On Hacker News, title links point to arbitrary
+third-party sites whose iframe embedding is blocked by `X-Frame-Options`/`CSP`
+in ways we can't enumerate — so titles open in a new tab while comments preview
+in the sidebar (see Technical notes).
 
-1. 克隆本仓库
-2. 打开 `chrome://extensions`，开启右上角「开发者模式」
-3. 点「加载已解压的扩展程序」，选择本仓库的 `src/` 目录
+## Features
 
-## 使用
+- **Sidebar preview**: click a thread on a list page; it opens in the right-hand
+  panel. Click another to swap; click the same one to close.
+- **List stays put**: the list remains on the left with its scroll position intact.
+- **In-panel navigation**: same-site links inside the preview (pages, comments,
+  user profiles) keep opening inside the panel.
+- **Customizable appearance**: header background, title text color, and border
+  color are adjustable in the options page, applied live.
+- **Bilingual UI**: follows the browser language (English / 简体中文).
 
-| 站点 | 点击行为 |
+## Supported sites & click behavior
+
+| Site | Click behavior |
 | --- | --- |
-| V2EX / Linux.do | 点帖子标题 → 右侧预览 |
-| Hacker News | 点 **comments** → 右侧预览；点**标题** → 新标签页打开 |
-| 所有站点 | 预览面板内的同站链接 → 面板内继续；`Ctrl/Cmd/中键` → 原生行为 |
+| V2EX / Linux.do | Click a thread title → preview in sidebar |
+| Hacker News | Click **comments** → preview in sidebar; click a **title** (third-party site) → new tab |
+| All sites | Same-site links inside the panel stay in the panel; `Ctrl/Cmd/middle-click` keep native behavior |
 
-## 自定义外观
+## Install
 
-`chrome://extensions` → ForumSplitReader →「扩展程序选项」，可调：
+**Chrome Web Store**: link to be added once published.
 
-- 标题栏背景色
-- 标题文字颜色
-- 边框颜色
+**Developer mode (local)**:
 
-保存即生效，无需刷新页面；「恢复默认」一键重置。
+1. Clone this repository
+2. Open `chrome://extensions` and enable "Developer mode"
+3. Click "Load unpacked" and select the `src/` directory of this repo
 
-## 开发
+> Note: Chrome 136+ stable removed the `--load-extension` command-line flag;
+> developer-mode loading is unaffected.
 
-纯 MV3，无构建依赖、无打包器。目录结构：
+## Customization
+
+`chrome://extensions` → ForumSplitReader → "Extension options": adjust header
+background, title text color, and border color. Changes apply live to open panels;
+"Restore defaults" resets everything.
+
+## Technical notes
+
+Plain MV3: no build dependencies, no bundler, no background/service worker.
+
+- **Architecture**: `content_scripts` (`document_start` + `all_frames`) plus an
+  in-page iframe panel. The top-frame script intercepts list clicks; the preview
+  frame's own script injects site-specific cleanup CSS and takes over in-panel
+  navigation (same-site `location.assign` stays in-panel, everything else passes
+  through). In-panel navigation never relies on same-origin parent access, so
+  cross-origin concerns don't apply.
+- **Adapter pattern**: one adapter per site (`content/sites/*.js`) implementing
+  `matches / isListPage / findTopicAnchor / getTopicUrl / getTopicKey /
+  shouldHandleUrl / getTopicAction / previewCss`. Adding a site is one file plus
+  registration.
+- **Why HN titles open in a tab** (measured across 14 commonly linked sites):
+  github/wired send `DENY`, techcrunch/stackoverflow send `SAMEORIGIN`,
+  theverge uses an allowlist, the rest allow embedding. The blocklist isn't
+  enumerable, and stripping headers via declarativeNetRequest would require
+  `<all_urls>`, affect all tabs globally, and still fail against frame-busting JS.
+- **Hard-won lessons** (see git history for full investigations):
+  - linux.do ships a global `iframe { max-height: min(1000px, 200vh) }` rule that
+    clamps the preview panel (blank band below the panel grows with viewport
+    height above ~1040px). Fixed with `max-height: none !important`.
+  - Discourse's `#main-outlet-wrapper` is a two-column `grid-template-areas`
+    layout; hiding the sidebar leaves the 273px track visually behind even with
+    `!important` (Chrome returns used tracks for gridded areas). Fixed by
+    switching the wrapper to `display: block`.
+  - Preview CSS must be injected by the **frame's own** content script at
+    `document_start` (`all_frames: true`) so it lands before first paint;
+    otherwise sidebar/header flash briefly before disappearing.
+
+## Development
+
+Layout:
 
 ```
 src/
-├── manifest.json          # MV3 清单（三站 content_scripts + options 页）
-├── options.html/.js       # 设置页（面板外观）
+├── manifest.json            # MV3 manifest (three-site content_scripts + options page + _locales)
+├── options.html/.js         # Options page (panel appearance, i18n)
+├── _locales/                # en / zh_CN messages
 └── content/
-    ├── index.js           # 入口：列表页点击分流 + 预览帧内导航
-    ├── styles.css         # 面板样式（--fh-* 变量驱动）
-    ├── core/              # config（存储）/ dom（工具）/ viewer（面板控制器）
-    └── sites/             # v2ex / linuxdo / hackernews 适配器
-docs/design.md             # 详细设计（技术路线、实测记录、风险）
-scripts/build.sh           # 校验 + 打包 zip（上传商店用）
+    ├── index.js             # Entry: list-click routing + in-panel navigation + live settings
+    ├── styles.css           # Panel styles (driven by --fsr-* variables)
+    ├── core/                # config (storage) / dom (utils) / viewer (panel controller)
+    └── sites/               # v2ex / linuxdo / hackernews adapters
+scripts/build.sh             # Validate + package a store-ready zip
 ```
 
-构建与发布：
+Build & verify:
 
 ```bash
-scripts/build.sh          # 产出 dist/forum-helper-v<version>.zip
-scripts/build.sh --check  # 仅校验 manifest 与文件完整性
+scripts/build.sh          # -> dist/forum-split-reader-v<version>.zip (manifest at zip root)
+scripts/build.sh --check  # Validate manifest and file integrity only
 ```
 
-详细技术决策（含 iframe 嵌入可行性实测、Linux.do 布局三轮排查记录）
-见 [docs/design.md](docs/design.md)。
+For automated testing: the DevTools Protocol's `Extensions.loadUnpacked` can
+load/reload unpacked extensions in any browser started with
+`--remote-debugging-port` — handy for CI or local verification.
 
-## 权限与隐私
+## Permissions & privacy
 
-- 权限仅 `storage`（保存外观设置）与三个站点的 content script 注入。
-- 不收集任何数据，无网络请求，无分析代码。
-- 所有设置只存在本地浏览器。
+- Permissions: `storage` only (appearance settings), plus content scripts on the
+  three supported sites.
+- No data collection, no network requests, no analytics; all settings stay in
+  your local browser.
 
-## 许可
+## License
 
 [MIT](LICENSE)

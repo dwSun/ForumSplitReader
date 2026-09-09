@@ -1,0 +1,17 @@
+{
+  "extName": { "message": "ForumSplitReader" },
+  "extDescription": {
+    "message": "Preview forum threads in a split sidebar, mail-client style. Supports V2EX, Linux.do, and Hacker News."
+  },
+  "optionsTitle": { "message": "ForumSplitReader Settings" },
+  "optHeaderBg": { "message": "Header background" },
+  "optHeaderBgHint": { "message": "Top bar of the preview panel" },
+  "optTitleColor": { "message": "Title text color" },
+  "optBorderColor": { "message": "Border color" },
+  "optBorderColorHint": { "message": "Panel divider and header underline" },
+  "optReset": { "message": "Restore defaults" },
+  "optSaved": { "message": "Saved" },
+  "optResetDone": { "message": "Defaults restored" },
+  "closeLabel": { "message": "Close preview" },
+  "loading": { "message": "Loading…" }
+}

@@ -1,0 +1,17 @@
+{
+  "extName": { "message": "ForumSplitReader" },
+  "extDescription": {
+    "message": "像邮件客户端一样在分栏侧栏中预览论坛帖子。支持 V2EX、Linux.do 与 Hacker News。"
+  },
+  "optionsTitle": { "message": "ForumSplitReader 设置" },
+  "optHeaderBg": { "message": "标题栏背景色" },
+  "optHeaderBgHint": { "message": "预览面板顶部标题栏" },
+  "optTitleColor": { "message": "标题文字颜色" },
+  "optBorderColor": { "message": "边框颜色" },
+  "optBorderColorHint": { "message": "面板分隔线与标题栏下边框" },
+  "optReset": { "message": "恢复默认" },
+  "optSaved": { "message": "已保存" },
+  "optResetDone": { "message": "已恢复默认" },
+  "closeLabel": { "message": "关闭预览" },
+  "loading": { "message": "加载中…" }
+}

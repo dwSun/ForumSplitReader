@@ -15,15 +15,24 @@ if [[ ! -f "$SRC/manifest.json" ]]; then
   exit 1
 fi
 
-# manifest 必须是合法 JSON，且关键字段齐全
+# manifest 必须是合法 JSON，且关键字段齐全；name/description 走 _locales 时解析实际值
 node -e '
   const fs = require("fs");
+  const path = require("path");
+  const dir = path.dirname(process.argv[1]);
   const m = JSON.parse(fs.readFileSync(process.argv[1], "utf8"));
   for (const key of ["manifest_version", "name", "version"]) {
     if (!m[key]) { console.error(`error: manifest 缺少 ${key}`); process.exit(1); }
   }
   if (m.manifest_version !== 3) { console.error("error: 需要 manifest_version 3"); process.exit(1); }
-  console.log(`manifest OK: ${m.name} v${m.version}`);
+  const resolve = (v) => {
+    const match = /^__MSG_(.+)__$/.exec(v ?? "");
+    if (!match) return v;
+    const locale = m.default_locale ?? "en";
+    const msgs = JSON.parse(fs.readFileSync(path.join(dir, "_locales", locale, "messages.json"), "utf8"));
+    return msgs[match[1]]?.message ?? v;
+  };
+  console.log(`manifest OK: ${resolve(m.name)} v${m.version}`);
 ' "$SRC/manifest.json"
 
 # content_scripts 声明的每个 js/css 文件都必须存在
@@ -48,7 +57,7 @@ fi
 
 # ── 打包 ──────────────────────────────────────────────
 VERSION="$(node -e 'console.log(JSON.parse(require("fs").readFileSync(process.argv[1], "utf8")).version)' "$SRC/manifest.json")"
-ZIP="forum-helper-v${VERSION}.zip"
+ZIP="forum-split-reader-v${VERSION}.zip"
 
 rm -rf "$DIST"
 mkdir -p "$DIST"
