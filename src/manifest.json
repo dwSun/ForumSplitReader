@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Forum Helper",
+  "name": "ForumSplitReader",
   "version": "0.1.0",
   "description": "在 V2EX、Linux.do 与 Hacker News 列表页右侧预览帖子内容",
   "permissions": ["storage"],

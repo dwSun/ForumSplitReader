@@ -1,4 +1,4 @@
-# Forum Helper — 详细设计
+# ForumSplitReader — 详细设计
 
 ## 1. 目标
 
@@ -268,7 +268,7 @@ options 页保存后，`chrome.storage.onChanged` 让已打开面板的列表页
 ```json
 {
   "manifest_version": 3,
-  "name": "Forum Helper",
+  "name": "ForumSplitReader",
   "version": "0.1.0",
   "permissions": ["storage"],
   "options_page": "options.html",

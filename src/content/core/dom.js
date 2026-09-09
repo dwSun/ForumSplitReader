@@ -33,5 +33,5 @@
     },
   };
 
-  globalThis.ForumHelperDom = dom;
+  globalThis.ForumSplitReaderDom = dom;
 })();

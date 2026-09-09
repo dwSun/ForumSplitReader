@@ -2,7 +2,7 @@
 // DEFAULT_SETTINGS 的每一项都可能被 options 页覆盖；读取方必须做合并兜底。
 (() => {
   const settings = {
-    STORAGE_KEY: 'forumHelperSettings',
+    STORAGE_KEY: 'forumSplitReaderSettings',
     DEFAULT_SETTINGS: {
       width: '48vw',
       minWidth: '420px',
@@ -26,5 +26,5 @@
     },
   };
 
-  globalThis.ForumHelperConfig = settings;
+  globalThis.ForumSplitReaderConfig = settings;
 })();

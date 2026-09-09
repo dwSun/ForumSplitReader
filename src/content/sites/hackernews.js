@@ -12,7 +12,7 @@
     body { background: #f6f6ef !important; }
   `;
 
-  globalThis.ForumHelperHackernewsAdapter = {
+  globalThis.ForumSplitReaderHackernewsAdapter = {
     id: 'hackernews',
     previewCss: HN_PREVIEW_CSS,
 

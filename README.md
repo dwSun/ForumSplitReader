@@ -1,4 +1,4 @@
-# Forum Helper
+# ForumSplitReader
 
 像邮件客户端一样浏览论坛：**左侧列表，右侧预览**，不再来回跳转。
 
@@ -32,7 +32,7 @@
 
 ## 自定义外观
 
-`chrome://extensions` → Forum Helper →「扩展程序选项」，可调：
+`chrome://extensions` → ForumSplitReader →「扩展程序选项」，可调：
 
 - 标题栏背景色
 - 标题文字颜色

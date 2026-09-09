@@ -42,7 +42,7 @@
     }
   `;
 
-  globalThis.ForumHelperLinuxDoAdapter = {
+  globalThis.ForumSplitReaderLinuxDoAdapter = {
     id: 'linuxdo',
     previewCss: LINUX_DO_PREVIEW_CSS,
 

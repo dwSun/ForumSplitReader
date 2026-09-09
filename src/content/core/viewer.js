@@ -2,7 +2,7 @@
 // 负责面板 DOM 构建（标题栏 + iframe）、打开/切换/关闭、外观设置（宽度、
 // 颜色变量）应用。面板内导航不由本模块负责（见 content/index.js 预览帧分支）。
 (() => {
-  const { injectStyle, isModifierClick } = globalThis.ForumHelperDom;
+  const { injectStyle, isModifierClick } = globalThis.ForumSplitReaderDom;
 
   const ROOT_ID = 'fh-preview-root';
   const FRAME_ID = 'fh-preview-frame';
@@ -132,5 +132,5 @@
     return { open, toggle, destroy };
   };
 
-  globalThis.ForumHelperViewer = { createViewerController, applyPanelColors };
+  globalThis.ForumSplitReaderViewer = { createViewerController, applyPanelColors };
 })();

@@ -9,7 +9,7 @@
     #Main { float: none !important; padding: 8px 12px 32px !important; box-sizing: border-box !important; }
   `;
 
-  globalThis.ForumHelperV2exAdapter = {
+  globalThis.ForumSplitReaderV2exAdapter = {
     id: 'v2ex',
     previewCss: V2EX_PREVIEW_CSS,
 

@@ -3,7 +3,7 @@
 // 注意：连续改多个颜色时必须合并后一次写入，否则并发 get-modify-set
 // 互相覆盖（实测：三次连续 change 只有最后一次生效，其余被默认值覆盖）。
 (() => {
-  const { DEFAULT_SETTINGS, STORAGE_KEY } = globalThis.ForumHelperConfig;
+  const { DEFAULT_SETTINGS, STORAGE_KEY } = globalThis.ForumSplitReaderConfig;
   const COLOR_KEYS = ['headerBg', 'titleColor', 'borderColor'];
 
   const inputs = Object.fromEntries(COLOR_KEYS.map((key) => [key, document.getElementById(key)]));

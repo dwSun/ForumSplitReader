@@ -2,10 +2,10 @@
 // 顶层（列表页）：拦截帖子链接点击，按 adapter 分流到侧栏预览或新标签页；
 // 预览帧内：注入预览样式，接管面板内导航（同站留面板，其余放行）。
 (() => {
-  const { DEFAULT_SETTINGS, STORAGE_KEY, loadSettings } = globalThis.ForumHelperConfig;
-  const { createViewerController, applyPanelColors } = globalThis.ForumHelperViewer;
-  const { injectStyle, isModifierClick } = globalThis.ForumHelperDom;
-  const ADAPTERS = [globalThis.ForumHelperV2exAdapter, globalThis.ForumHelperLinuxDoAdapter, globalThis.ForumHelperHackernewsAdapter];
+  const { DEFAULT_SETTINGS, STORAGE_KEY, loadSettings } = globalThis.ForumSplitReaderConfig;
+  const { createViewerController, applyPanelColors } = globalThis.ForumSplitReaderViewer;
+  const { injectStyle, isModifierClick } = globalThis.ForumSplitReaderDom;
+  const ADAPTERS = [globalThis.ForumSplitReaderV2exAdapter, globalThis.ForumSplitReaderLinuxDoAdapter, globalThis.ForumSplitReaderHackernewsAdapter];
 
   const adapter = ADAPTERS.find((a) => a.matches(window.location)) ?? null;
   if (!adapter) {
@@ -79,7 +79,7 @@
 
     const ensureController = async () => {
       if (!controller) {
-        settingsPromise ??= loadSettings.call(globalThis.ForumHelperConfig);
+        settingsPromise ??= loadSettings.call(globalThis.ForumSplitReaderConfig);
         const settings = { ...DEFAULT_SETTINGS, ...(await settingsPromise) };
         controller = createViewerController(adapter, settings);
         window.addEventListener('beforeunload', () => {
