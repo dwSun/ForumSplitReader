@@ -31,6 +31,20 @@ ForumSplitReader 的空白点：**自动激活 + 多论坛 + 原生 tab 渲染**
 - **自定义外观**：标题栏背景、标题文字、边框颜色可在设置页调整，实时生效。
 - **中英文界面**：跟随浏览器语言自动切换。
 
+## 截图
+
+**Hacker News** — comments 侧栏预览，列表保持不动：
+
+![Hacker News 预览](assets/screenshots/hacker-news-light.png)
+
+**Linux.do** — 完整帖子渲染，保留站点样式：
+
+![Linux.do 预览](assets/screenshots/linuxdo-light.png)
+
+**自定义外观** — 标题栏/标题/边框颜色可在设置页调整：
+
+![深色自定义外观](assets/screenshots/hacker-news-dark.png)
+
 ## 支持的站点与点击行为
 
 | 站点 | 点击行为 |

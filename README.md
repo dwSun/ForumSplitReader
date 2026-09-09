@@ -39,6 +39,20 @@ in the sidebar (see Technical notes).
   color are adjustable in the options page, applied live.
 - **Bilingual UI**: follows the browser language (English / 简体中文).
 
+## Screenshots
+
+**Hacker News** — comments open in the sidebar, the list stays put:
+
+![Hacker News preview](assets/screenshots/hacker-news-light.png)
+
+**Linux.do** — full thread rendering with site styling:
+
+![Linux.do preview](assets/screenshots/linuxdo-light.png)
+
+**Custom appearance** — header/title/border colors adjustable in options:
+
+![Dark custom theme](assets/screenshots/hacker-news-dark.png)
+
 ## Supported sites & click behavior
 
 | Site | Click behavior |
