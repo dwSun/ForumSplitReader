@@ -74,6 +74,18 @@
       title.id = TITLE_ID;
       title.textContent = `${adapter.id} preview`;
 
+      const openTab = document.createElement('button');
+      openTab.id = 'fsr-preview-open-tab';
+      openTab.type = 'button';
+      openTab.setAttribute('aria-label', chrome.i18n.getMessage('openTabLabel') || 'Open in new tab');
+      openTab.textContent = '↗';
+      openTab.addEventListener('click', () => {
+        const url = frame?.src;
+        if (url && url !== 'about:blank') {
+          window.open(url, '_blank', 'noopener,noreferrer');
+        }
+      });
+
       const close = document.createElement('button');
       close.id = 'fsr-preview-close';
       close.type = 'button';
@@ -84,6 +96,7 @@
       });
 
       header.appendChild(title);
+      header.appendChild(openTab);
       header.appendChild(close);
 
       frame = document.createElement('iframe');

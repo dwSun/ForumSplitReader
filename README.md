@@ -35,6 +35,7 @@ in the sidebar (see Technical notes).
 - **List stays put**: the list remains on the left with its scroll position intact.
 - **In-panel navigation**: same-site links inside the preview (pages, comments,
   user profiles) keep opening inside the panel.
+- **Open in new tab**: the header「↗」button opens the current preview in a new tab.
 - **Customizable appearance**: header background, title text color, and border
   color are adjustable in the options page, applied live.
 - **Bilingual UI**: follows the browser language (English / 简体中文).

@@ -13,5 +13,6 @@
   "optSaved": { "message": "已保存" },
   "optResetDone": { "message": "已恢复默认" },
   "closeLabel": { "message": "关闭预览" },
+  "openTabLabel": { "message": "在新标签页打开" },
   "loading": { "message": "加载中…" }
 }

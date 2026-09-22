@@ -54,13 +54,15 @@ body.fsr-preview-open {
   text-overflow: ellipsis;
 }
 
-#fsr-preview-close {
+#fsr-preview-close,
+#fsr-preview-open-tab {
   border: none;
   background: transparent;
   color: #666;
   cursor: pointer;
   font-size: 18px;
   line-height: 1;
+  padding: 0;
 }
 
 #fsr-preview-frame {

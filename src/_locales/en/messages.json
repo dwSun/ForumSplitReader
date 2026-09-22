@@ -13,5 +13,6 @@
   "optSaved": { "message": "Saved" },
   "optResetDone": { "message": "Defaults restored" },
   "closeLabel": { "message": "Close preview" },
+  "openTabLabel": { "message": "Open in new tab" },
   "loading": { "message": "Loading…" }
 }
